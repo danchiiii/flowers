@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Water the Flowers</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Quicksand:wght@400;600&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(circle at top, #141414, #000);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  overflow: hidden;
+  color: white;
+}
+
+/* ✨ Floating lights */
+.particles span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255,200,230,0.9);
+  border-radius: 50%;
+  animation: float 6s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-140px); opacity: 0; }
+}
+
+/* 💌 Message */
+.message {
+  position: absolute;
+  top: 60px;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  line-height: 1.4;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+.message.show {
+  opacity: 1;
+}
+
+/* Button */
+button {
+  margin-bottom: 25px;
+  padding: 14px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 25px;
+  background: #4fc3f7;
+  color: white;
+  cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* 🌿 Garden */
+.garden {
+  position: relative;
+  width: 100%;
+  height: 440px;
+}
+
+/* 🌱 Plant */
+.plant {
+  position: absolute;
+  bottom: 0;
+  opacity: 0;
+  transform: rotate(var(--angle)) scale(var(--size));
+}
+
+/* Stem */
+.stem {
+  width: 10px;
+  height: 0;
+  background: linear-gradient(#5b8c5a, #1b5e20);
+  border-radius: 6px;
+  margin: 0 auto;
+}
+
+/* Leaves */
+.leaf {
+  width: 55px;
+  height: 30px;
+  background: #2ecc71;
+  border-radius: 50%;
+  position: absolute;
+  opacity: 0;
+}
+
+.leaf.left {
+  left: -50px;
+  top: 160px;
+  transform: rotate(-25deg);
+}
+
+.leaf.right {
+  right: -50px;
+  top: 200px;
+  transform: rotate(25deg);
+}
+
+/* 🌸 Base flower */
+.flower {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: -90px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+}
+
+/* 🌼 Petals */
+.petal {
+  width: 30px;
+  height: 60px;
+  background: radial-gradient(circle at top, var(--light), var(--dark));
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 25px;
+  transform-origin: bottom center;
+}
+
+.petal:nth-child(1){transform:rotate(0deg)}
+.petal:nth-child(2){transform:rotate(60deg)}
+.petal:nth-child(3){transform:rotate(120deg)}
+.petal:nth-child(4){transform:rotate(180deg)}
+.petal:nth-child(5){transform:rotate(240deg)}
+.petal:nth-child(6){transform:rotate(300deg)}
+
+.center {
+  width: 22px;
+  height: 22px;
+  background: gold;
+  border-radius: 50%;
+  position: absolute;
+  top: 29px;
+  left: 29px;
+  box-shadow: 0 0 12px gold;
+}
+
+/* 🌼 Daisy */
+.daisy .petal {
+  width: 20px;
+  height: 45px;
+  background: white;
+  left: 30px;
+}
+
+.daisy .center {
+  background: #f5c542;
+}
+
+/* 🌷 Tulip */
+.tulip .flower {
+  width: 70px;
+  height: 80px;
+}
+
+.tulip .petal {
+  width: 30px;
+  height: 50px;
+  border-radius: 0 0 50% 50%;
+  top: 25px;
+  left: 20px;
+}
+
+.tulip .petal:nth-child(1){transform:rotate(-20deg)}
+.tulip .petal:nth-child(2){transform:rotate(0deg)}
+.tulip .petal:nth-child(3){transform:rotate(20deg)}
+
+.tulip .center {
+  display: none;
+}
+
+/* 🌱 Animations */
+.animate .plant {
+  opacity: 1;
+  animation: sway 3s infinite ease-in-out;
+}
+
+.animate .stem {
+  animation: grow 3s forwards;
+}
+
+.animate .leaf {
+  animation: show 1.5s forwards;
+  animation-delay: 2.2s;
+}
+
+.animate .flower {
+  animation: bloom 2s forwards;
+  animation-delay: 4s;
+}
+
+@keyframes grow { to { height: 320px; } }
+@keyframes show { to { opacity: 1; } }
+@keyframes bloom { to { transform: translateX(-50%) scale(1); } }
+@keyframes sway {
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ✨ Lights -->
+<div class="particles">
+  <span style="left:15%; animation-delay:0s"></span>
+  <span style="left:35%; animation-delay:1s"></span>
+  <span style="left:55%; animation-delay:2s"></span>
+  <span style="left:75%; animation-delay:3s"></span>
+</div>
+
+<!-- 💌 Message -->
+<div class="message" id="msg">
+  I hope you had a great day.<br>
+  take a rest now, I know you did great!
+</div>
+
+<button id="btn" onclick="water()">💧 Water the flowers</button>
+
+<div class="garden" id="garden">
+
+  <!-- Pink flower -->
+  <div class="plant" style="left:25%; --angle:-8deg; --size:1.1; --light:#ffb3c7; --dark:#ff5f87;">
+    <div class="stem">
+      <div class="leaf left"></div><div class="leaf right"></div>
+      <div class="flower">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="center"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daisy -->
+  <div class="plant daisy" style="left:42%; --angle:0deg; --size:1;">
+    <div class="stem">
+      <div class="leaf left"></div><div class="leaf right"></div>
+      <div class="flower">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="center"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tulip -->
+  <div class="plant tulip" style="left:58%; --angle:6deg; --size:1.05; --light:#ffc0cb; --dark:#ff5f87;">
+    <div class="stem">
+      <div class="leaf left"></div><div class="leaf right"></div>
+      <div class="flower">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blue flower -->
+  <div class="plant" style="left:72%; --angle:-5deg; --size:0.95; --light:#b3e5ff; --dark:#4fa3ff;">
+    <div class="stem">
+      <div class="leaf left"></div><div class="leaf right"></div>
+      <div class="flower">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="center"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<audio id="waterSound">
+  <source src="beabadoobee-the-perfect-pair-(official-audio)-made-with-Voicemod.mp3">
+</audio>
+
+<script>
+function water() {
+  garden.classList.add("animate");
+  msg.classList.add("show");
+  btn.style.display = "none";
+  waterSound.play();
+}
+</script>
+
+</body>
+</html>
